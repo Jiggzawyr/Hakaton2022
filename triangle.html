@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="900" height="900" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML canvas tag.</canvas>
+
+<script>
+
+//change this value to control how many triangles you want to draw
+var limit = 2;
+
+var canvas = document.getElementById("myCanvas");
+var width = canvas.width;
+var height = canvas.height;
+
+var L = width-100;
+var H = L * Math.sqrt(3) / 2;
+var R = H / 2;
+
+var AX = width/2;
+var AY = 50;
+var BX = AX - L/2;
+var BY = AY + H;
+var CX = BX + L;
+var CY = BY;
+
+var ctx = canvas.getContext("2d");
+
+console.log("START")
+
+//draw main triangle
+var ctx = canvas.getContext("2d");
+ctx.moveTo(AX,AY);
+ctx.lineTo(BX,BY);
+ctx.lineTo(CX,CY);
+ctx.closePath();
+ctx.stroke();
+
+var x = AX;
+var y = AY + 3/4*H;
+var r = R / 2;
+
+
+sierpinski(x,y,r);
+
+function sierpinski(x,y,R){
+	if(R>limit){
+    	drawTriangle(x,y,R);
+        var l = 4 * R / Math.sqrt(3);
+        //draw left triangle
+        var r1 = R/2;
+        var x1 = x - l/2;
+        var y1 = y + r1;
+        sierpinski(x1,y1,r1);
+        //draw right triangle
+        var r2 = R/2;
+        var x2 = x + l/2;
+        var y2 = y + r2;
+        sierpinski(x2,y2,r2);
+        //draw top triangle
+        var r3 = R/2;
+        var x3 = x;
+        var y3 = y - R - r3;
+        sierpinski(x3,y3,r3);
+    }
+}
+
+function drawTriangle(x,y,R){
+	
+    var L = 4 * R / Math.sqrt(3);
+    
+	var ax = x;
+    var ay = y + R;
+    var bx = x - L/2;
+    var by = y - R;
+    var cx = x + L/2;
+    var cy = y - R;
+    
+    ctx.moveTo(ax,ay);
+    ctx.lineTo(bx,by);
+    ctx.lineTo(cx,cy);
+    ctx.closePath();
+    ctx.stroke();
+    
+}
+
+</script>
+
+</body>
+</html>
+
